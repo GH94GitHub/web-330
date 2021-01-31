@@ -1,0 +1,42 @@
+<!---------------------------------
+; Title Exercise 4.3
+; Author: Richard Krasso
+; Date 31 January 2021
+; Modified By: George Henderson
+; Description: Ajax delete call.
+;--------------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 4.3</title>
+
+    <!-- jQuery reference -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+<button id="delete">Http Delete (Push me)</button>
+<script>
+
+    $(function() {
+      $('#delete').click(function() {
+        $.ajax('http://httpbin.org/delete', {
+          type: 'delete',
+          data: {
+            firstName: 'Joey',
+            lastName: 'Jefferson',
+            wage: 42,
+          },
+          success: function(data, status) {
+            console.log(data);
+            console.log(data.form.firstName + ' ' + data.form.lastName + ' $' + data.form.wage + '/hr');
+          }
+        });
+      });
+    });
+
+</script>
+
+</body>
+</html>

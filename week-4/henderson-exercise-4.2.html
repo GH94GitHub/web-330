@@ -1,0 +1,52 @@
+
+<!-------------------------
+; Title: Exercise 4.2.html
+; Author: Richard Krasso
+; Date: 30 January 2021
+; Modified By: George Henderson
+; Description:jQuery GET ajax.
+;------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>exercise 4.2</title>
+
+    <!-- jQuery reference -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+      img {
+        margin:25px;
+        box-shadow: 1 0 2 black;
+      }
+    </style>
+</head>
+<body>
+<button id="getPic">press me</button>
+<script>
+
+  $('#getPic').click(function() {
+    $.get('https://dog.ceo/api/breeds/image/random', function(data) {
+      console.log(data);
+      console.log(data.message);
+
+      var randomPic = $('<img/>').attr({
+        src: data.message,
+        width: 'auto',
+        height: '100px'
+      });
+
+      if ($('img').length >= 3){
+        $('img')[2].remove();
+      }
+
+      randomPic.insertAfter('#getPic');
+    });
+  });
+
+</script>
+
+</body>
+</html>
