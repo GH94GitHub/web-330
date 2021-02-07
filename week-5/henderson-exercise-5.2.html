@@ -1,0 +1,45 @@
+<!------------------------
+; Title: Exercise 5.2
+; Author: Richard Krasso
+; Date: 07 January 2021
+; Modified By: George Henderson
+; Description:
+;------------------------>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 5.2 - The Proxy Pattern</title>
+
+    <link rel="stylesheet" href="../site.css">
+    <link  rel="stylesheet" href="./exercise-5.2.css">
+    <!-- jquery Reference Library -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+</head>
+<body class="centerChildren">
+    <h2>Recreating Proxy Example 1</h2>
+    <button id="proxy">Proxy test!</button>
+    <br/><span id="output"></span>
+
+
+<script>
+    $(function() {
+        var employee1 = {
+            firstName: 'Jeff',
+            lastName: 'Jefferson',
+            wage: 42, 
+            display: function() {
+                $('#output').html('');
+
+                $('#output').append('First Name: ' + this.firstName + '<br/>Last Name: ' + this.lastName + '<br/>Wage: ' + this.wage);
+            }
+        };
+
+        $('#proxy').click($.proxy(employee1, 'display'));
+    }); 
+</script>
+
+</body>
+</html>

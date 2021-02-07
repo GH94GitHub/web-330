@@ -1,0 +1,24 @@
+.centerChildren {
+    text-align: center;
+}
+
+
+.flexCenterChildren {
+    display: flex;
+    justify-content: center;
+}
+/***********************************/
+
+button {
+    border-radius: 20px;
+}
+
+body:nth-child(odd) {
+    background-color: #fa6603;
+    color: #000000;
+}
+
+body:nth-child(even) {
+    background-color: #000000;
+    color: #fa6603
+}
