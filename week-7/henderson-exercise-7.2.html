@@ -1,0 +1,63 @@
+<!----------------------------
+; Title: Exercise 7.2
+; Author: Richard Krasso
+; Date: 16 February 2021
+; Modified By: George Henderson
+; Description: Demonstrates using Knockout.js if binding.
+;---------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Exercise 7.2</title>
+
+    <!-- Stylesheet - Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- JavaScript Libraries -->
+    <script src="../knockout-3.5.1.js"></script>
+</head>
+<body>
+  <div role="main" class="container">
+    <br/><br/>
+
+    <h2>Using Knockout if</h2>
+    <div class="form-group">
+      <label for="txtFirstName">First Name: </label>
+      <input class="form-control" id="txtFirstName" data-bind="value: firstName">
+    </div>
+
+    <!-- ko if: firstName -->
+    <div class="form-group">
+      <label for="txtLastName">Last Name: </label>
+      <input class="form-control" id="txtLastName" data-bind="value: lastName">
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: lastName -->
+    <br/><br/>
+    <h2 data-bind="text: fullName" class="alert-success"></h2>
+    <!-- /ko -->
+
+  </div>
+
+
+<script>
+var PersonViewModel = function() {
+  var self = this;
+  self.firstName = ko.observable('');
+  self.lastName = ko.observable('');
+
+  self.fullName = ko.pureComputed(function() {
+    return self.firstName() + ' ' + self.lastName() ;
+  });
+}
+ko.applyBindings(new PersonViewModel());
+
+</script>
+
+</body>
+</html>

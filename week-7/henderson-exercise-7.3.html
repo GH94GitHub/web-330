@@ -1,0 +1,61 @@
+<!-------------------------
+; Title: Exercise 7.3
+; Author: Richard Krasso
+; Date: 16 February 2021
+; Modified By: George Henderson
+; Description: Demonstrates using Knockout.js foreach binding.
+;------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Exercise 7.3</title>
+
+    <!-- Stylesheet - Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- JavaScript Libraries -->
+    <script src="../knockout-3.5.1.js"></script>
+</head>
+<body>
+<div role="main" class="container">
+  <br><br>
+
+  <h2 style="text-align: center;">The "foreach" binding</h2>
+  <br>
+  <table class="table table-dark table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody data-bind="foreach: textbooks">
+      <td data-bind="text: title"></td>
+      <td data-bind="text: price"></td>
+    </tbody>
+  </table>
+
+</div>
+
+<script>
+  var textbookViewModel = function() {
+    var self = this;
+
+    self.textbooks = ko.observableArray([
+      {title: 'Lord of the Rings: Return of the King', price: 20},
+      {title: 'Harry Potter: Sorcerer Stone', price: 25},
+      {title: 'The Hobbit', price: 15},
+      {title: 'Harry Potter: Prisoner of Askaban', price: 20},
+      {title: 'Lord of the Rings: Fellowship of the Ring', price: 15}
+    ]);
+  };
+  ko.applyBindings(new textbookViewModel());
+
+</script>
+
+</body>
+</html>
