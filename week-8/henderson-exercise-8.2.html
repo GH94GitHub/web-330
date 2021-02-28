@@ -1,0 +1,88 @@
+<!------------------------
+; Title: Exercise 8.2
+; Author: Richard Krasso
+; Date: 26 February 2021
+; Modified By: George Henderson
+; Description: Demonstrates using Knockout to 'CR' in the CRUD methodology.
+;------------------------>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Exercise 8.2</title>
+
+    <!-- Stylesheet - Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- JavaScript Libraries -->
+    <script src="../knockout-3.5.1.js"></script>
+</head>
+<body>
+
+  <div role="main" class="containter">
+    <br><br>
+    <h2>CR Example</h2>
+
+    <br>
+    <div class="row" data-bind="if: error">
+      <div class="col-sm-12">
+        <div class="alert alert-danger" role="alert">
+          <strong>Warning!</strong> <span data-bind="text: error()"></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card card-inverse" style="background-color: #333; border-color: #333; color: white;">
+          <div class="card-block p3">
+            <h3 class="card-title">Grocery List</h3>
+            <div class="card-text">
+              <div class="form-group row">
+                <label for="txtAddEmployee" class="col-2 col-form-label">Employee: </label>
+                <div class="col6">
+                  <input type="text" class="form-control" id="txtAddEmployee" data-bind="value: nameToAdd, valueUpdate: 'afterkeyown'"/>
+                </div>
+                <div class="col-4">
+                  <a href="#" class="btn btn-primary" data-bind="click: add">Add</a>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="selectEmployee"></label>
+                <select class="form-control" size="10" id="selectEmployee" data-bind="options: employeeList"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ViewModel
+    function EmployeeViewModel() {
+      this.nameToAdd = ko.observable('');
+      this.error = ko.observable('');
+      this.employeeList = ko.observableArray([
+        'John', 'Jerry', 'Jeff', 'Jake'
+      ]);
+
+      this.add = function() {
+        if ((this.nameToAdd() !== "") && (this.employeeList.indexOf(this.nameToAdd()) < 0)) {
+          this.error('');
+          this.employeeList.push(this.nameToAdd());
+        }
+        else {
+          this.error('Duplicate or Invalid Entry.')
+        }
+      };
+    } //----------------------------- End View Model
+    ko.applyBindings(new EmployeeViewModel());
+  </script>
+
+</body>
+</html>

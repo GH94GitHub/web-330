@@ -1,0 +1,179 @@
+<!-------------------------
+; Title: Assignment 8.4
+; Author: George Henderson
+; Date: 27 February 2021
+; Description:
+;------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Assignment 8.4</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+  integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="../knockout-3.5.1.js" type="text/javascript"></script>
+</head>
+<body>
+  <div class="container" role="main">
+    <br><br>
+
+    <!--Error Message-->
+    <div class="row" data-bind="if: error">
+      <div class="col-sm-12">
+        <div class="alert alert-danger" role="alert">
+          <strong>Warning! </strong><span data-bind="text: error"></span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Knockout CRUD Example</h2>
+    <br>
+
+    <!--Add Employee-->
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card card-inverse" style="background-color: #333; border-color: #333; color: white;">
+          <div class="card-block p-3">
+            <h3 class="card-title">Add Employee</h3>
+            <div class="card-text">
+              <div class="row form-group">
+                <label for="txtAddEmployee" class="col-4 col-form-label">Employee: </label>
+                <div class="col-4">
+                  <input type="text" id="txtAddEmployee" data-bind="value: nameToAdd" >
+                </div>
+                <div class="col-2">
+                  <a href="#" class="btn btn-primary" data-bind="click: add">Add</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+
+    <!--Employee Table-->
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card card-inverse" style="background-color: #333; border-color: #333; color: white;">
+          <div class="card-block p-3">
+            <h3 class="card-title">Employee List</h3>
+            <div class="card-text">
+              <table class="table table-dark table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>EmployeeId</th>
+                    <th>Name</th>
+                    <th>Functions</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: Employees">
+                  <tr>
+                    <td data-bind="text: Id"></td>
+                    <td data-bind="text: Name"></td>
+                    <td>
+                      <span>
+                        <a href="#" class="btn btn-success" data-bind="click: $root.edit">
+                          <i class="fa fa-pencil fa-lg"></i>EDIT
+                        </a>
+                      </span>
+                      <span>
+                        <a href="#" class="btn btn-danger" data-bind="click: $root.remove">
+                          <i class="fa fa-pencil"></i>DELETE
+                        </a>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" data-bind="if: Employee">
+        <div class="card card-inverse" style="background-color: #333; border-color: #333; color: white;">
+          <div class="card-block p-3">
+            <h3 class="card-title">Employee</h3>
+            <div class="card-text">
+              <div class="form-group">
+                <label for="txtEmployee">Name: </label>
+                <input type="text" id="txtEmployee" data-bind="value: Employee().Name" class="form-control">
+              </div>
+              <div class="form-group float-right">
+                <button data-bind="click: $root.cancel" class="btn btn-group btn-danger">Cancel</button>
+                <button class="btn btn-group btn-success" data-bind="click: $root.update">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+
+  </div><!--End of MainDiv-->
+
+  <script>
+    function Employee(id, name) {
+      this.Id = id;
+      this.Name = name;
+    }
+
+    var employeeList = [
+      new Employee(1, 'Tony'),
+      new Employee(2, 'Terry'),
+      new Employee(3, 'Tina'),
+      new Employee(4, 'Tom'),
+      new Employee(5, 'Bob')
+    ];
+
+    var idCount = 6;
+
+    // ViewModel
+    function PayrollViewModel() {
+      var self = this;
+
+      self.error = ko.observable('');
+
+      self.Id = ko.observable('');
+      self.Name = ko.observable('');
+      self.nameToAdd = ko.observable('');
+
+      var Employee = {
+        Id: self.Id,
+        Name: self.Name
+      }
+
+      self.Employee = ko.observable();
+      self.Employees = ko.observableArray(employeeList);
+
+      self.edit = function(Employee) {
+        self.Employee(Employee);
+      };
+      self.remove = function(Employee) {
+        self.Employees.remove(Employee);
+      };
+      self.cancel = function() {
+        self.Employee(null);
+      };
+      self.update = function() {
+        self.Employees.remove(self.Employee());
+        self.Employees.push(self.Employee());
+      };
+      self.add = function() {
+        if (self.nameToAdd() && ko.toJS(self.Employees).findIndex((element) => { if (element.Name === self.nameToAdd()) {return true;}}) < 0) {
+          self.error('');
+
+          Employee.Id(idCount++);
+          Employee.Name(self.nameToAdd());
+          self.Employees.push(ko.toJS(Employee));
+        }
+        else {
+          self.error('Duplicate or Invalid Entry.');
+        }
+
+      };
+    }//-------------------End ViewModel
+    ko.applyBindings(new PayrollViewModel());
+  </script>
+</body>
+</html>
